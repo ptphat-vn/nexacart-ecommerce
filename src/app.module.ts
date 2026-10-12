@@ -3,13 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { LoggerModule } from './logger/logger.module';
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { LoggingInterceptor } from './logger/logging.interceptor';
 import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
 import { CatchEverythingFilter } from './catching-everything/catching-everything.filter';
 import { ZodExceptionFilter } from './catching-everything/zod-exception/zod-exception.filter';
 import { ApiUtilModule } from './common/utils/api-utils/api-util.module';
 import { FormatResponseInterceptor } from './common/interceptors/format-response/format-response.interceptor';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [UsersModule, LoggerModule, ApiUtilModule],
@@ -22,6 +23,7 @@ import { FormatResponseInterceptor } from './common/interceptors/format-response
     { provide: APP_INTERCEPTOR, useClass: ZodSerializerInterceptor },
     { provide: APP_FILTER, useClass: CatchEverythingFilter },
     { provide: APP_INTERCEPTOR, useClass: FormatResponseInterceptor },
+    { provide: APP_GUARD, useClass: AuthGuard },
   ],
 })
 export class AppModule {}
