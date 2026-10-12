@@ -1,7 +1,7 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
-import { CreateUserDTO } from './createUser.dto';
+import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDTO extends IntersectionType(
-  PickType(CreateUserDTO, ['id']),
-  PartialType(CreateUserDTO),
+  PickType(CreateUserDto, ['id']),
+  PartialType(CreateUserDto),
 ) {}

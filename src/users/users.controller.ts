@@ -1,17 +1,17 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDTO } from './dto/createUser.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/updateUser.dto';
 
 @Controller('/users')
@@ -24,7 +24,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUser(@Param('id') userID: string) {
+  getUser(@Param('id', ParseIntPipe) userID: number) {
     return this.userService.getUser(userID);
   }
 
@@ -34,19 +34,19 @@ export class UsersController {
   //   console.log('>>>> query: ', name, age);
   // }
   @Post()
-  createUser(@Body() userCreate: CreateUserDTO) {
+  createUser(@Body() userCreate: CreateUserDto) {
     return this.userService.createUser(userCreate);
   }
   @Patch(':id')
   // @Put('id')
   updateUser(
-    @Param('id') userID: string,
+    @Param('id', ParseIntPipe) userID: number,
     @Body() userDataUpdate: Omit<UpdateUserDTO, 'id'>,
   ) {
     return this.userService.updateUser(userID, userDataUpdate);
   }
   @Delete(':id')
-  deleteUser(@Param('id') userID: string) {
+  deleteUser(@Param('id', ParseIntPipe) userID: number) {
     return this.userService.deleteUser(userID);
   }
 }
