@@ -13,8 +13,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/updateUser.dto';
-
-@Controller('/users')
+// @Controller({ path: 'users', version: '1' })
+@Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

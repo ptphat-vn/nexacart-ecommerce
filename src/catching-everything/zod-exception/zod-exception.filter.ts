@@ -5,7 +5,10 @@ import { ZodError } from 'zod';
 @Catch(ZodValidationException, ZodSerializationException)
 export class ZodExceptionFilter implements ExceptionFilter {
   private converZodExceptions(zodError: ZodError) {
-    const messagesGrouped = Object.groupBy(zodError.issues, (item) => item.message);
+    const messagesGrouped = Object.groupBy(
+      zodError.issues,
+      (item) => item.message,
+    );
     return Object.keys(messagesGrouped).map((message) => ({
       message,
       fields: messagesGrouped[message]?.map((item) => item.path[0]),

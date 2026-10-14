@@ -1,0 +1,15 @@
+{
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "pg_nexacart_ecommerce",
+      "database": "db_nexacart_ecommerce",
+      "username": "user_nexacart_ecommerce",
+      "password": "password_nexacart_ecommerce"
+    }
+  ]
+}

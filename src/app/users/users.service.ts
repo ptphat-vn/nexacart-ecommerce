@@ -33,7 +33,9 @@ export class UsersService {
   updateUser(userID: number, userDataUpdate: Omit<UpdateUserDTO, 'id'>) {
     const userUpdate = this.findUser(userID);
     const userUpdated = { ...userUpdate, ...userDataUpdate, id: userUpdate.id };
-    this.users = this.users.map((user) => (user.id === userUpdated.id ? userUpdated : user));
+    this.users = this.users.map((user) =>
+      user.id === userUpdated.id ? userUpdated : user,
+    );
     return userUpdated;
   }
   deleteUser(userID: number) {
