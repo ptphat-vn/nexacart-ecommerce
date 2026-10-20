@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { ApiUtilService } from '../../utils/api-utils/api-util.service';
+import { ApiUtilService } from '../../utils/api-util/api-util.service';
 import { map, Observable } from 'rxjs';
 
 @Injectable()

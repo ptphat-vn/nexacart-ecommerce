@@ -7,7 +7,7 @@ import {
 import { HttpAdapterHost } from '@nestjs/core';
 import { ZodExceptionFilter } from './zod-exception/zod-exception.filter';
 import { ZodSerializationException, ZodValidationException } from 'nestjs-zod';
-import { ApiUtilService } from '../common/utils/api-utils/api-util.service';
+import { ApiUtilService } from '../common/utils/api-util/api-util.service';
 
 @Catch()
 export class CatchEverythingFilter implements ExceptionFilter {

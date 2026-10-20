@@ -6,7 +6,7 @@ export class User implements UserPrisma {
   password: string;
   firstName: string;
   lastName: string;
-  fullAddress: string | null;
+  fullAddress: string;
   city: string | null;
   province: string | null;
   country: string | null;

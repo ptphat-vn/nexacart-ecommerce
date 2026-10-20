@@ -14,8 +14,14 @@ import { LoggingInterceptor } from '../logger/logging.interceptor';
 import { CatchEverythingFilter } from '../catching-everything/catching-everything.filter';
 import { FormatResponseInterceptor } from '../common/interceptors/format-response/format-response.interceptor';
 import { LoggerModule } from '../logger/logger.module';
-import { ApiUtilModule } from '../common/utils/api-utils/api-util.module';
+import { ApiUtilModule } from '../common/utils/api-util/api-util.module';
 import { PrismaModule } from '../common/prisma/prisma.module';
+import { QueryUtilModule } from '../common/utils/query-util/query-util.module';
+import { CacheUtilModule } from '../common/utils/cache-util/cache-util.module';
+import { AuthModule } from './auth/auth.module';
+import { RolesModule } from './roles/roles.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { RolePermissionsModule } from './role-permissions/role-permissions.module';
 
 @Module({
   imports: [
@@ -25,9 +31,17 @@ import { PrismaModule } from '../common/prisma/prisma.module';
       // validate: validate,
     }),
     PrismaModule,
+    AuthModule,
     UsersModule,
     LoggerModule,
     ApiUtilModule,
+    QueryUtilModule,
+    // FileUtilModule,
+    CacheUtilModule,
+    // RateLimitModule,
+    RolesModule,
+    PermissionsModule,
+    RolePermissionsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -39,6 +53,7 @@ import { PrismaModule } from '../common/prisma/prisma.module';
     { provide: APP_FILTER, useClass: CatchEverythingFilter },
     { provide: APP_INTERCEPTOR, useClass: FormatResponseInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
+    // {provide: APP_GUARD, useClass: Access}
   ],
 })
 export class AppModule {}

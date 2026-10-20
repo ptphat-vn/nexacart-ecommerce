@@ -9,8 +9,12 @@ export enum PagingDefault {
 export class Pagination extends createZodDto(
   z
     .object({
-      itemPerPage: z.number().default(PagingDefault.ITEM_PER_PAGE),
-      page: z.number().default(PagingDefault.PAGE),
+      itemPerPage: z.coerce
+        .number()
+        .int()
+        .min(1)
+        .default(PagingDefault.ITEM_PER_PAGE),
+      page: z.coerce.number().int().min(1).default(PagingDefault.PAGE),
       select: z.string().optional(),
     })
     .passthrough(),
