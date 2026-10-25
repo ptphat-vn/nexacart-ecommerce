@@ -1,0 +1,26 @@
+{
+  "name": "nexacart-ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare-husky": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptphat-vn/nexacart-ecommerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ptphat-vn/nexacart-ecommerce/issues"
+  },
+  "homepage": "https://github.com/ptphat-vn/nexacart-ecommerce#readme",
+  "devDependencies": {
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
+    "husky": "9.1.7"
+  }
+}
