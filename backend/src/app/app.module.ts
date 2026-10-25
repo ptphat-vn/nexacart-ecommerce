@@ -22,6 +22,8 @@ import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { RolePermissionsModule } from './role-permissions/role-permissions.module';
+import { VendorsModule } from './vendors/vendors.module';
+import { AccessControlGuard } from '../common/guards/access-control/access-control.guard';
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { RolePermissionsModule } from './role-permissions/role-permissions.modul
     RolesModule,
     PermissionsModule,
     RolePermissionsModule,
+    VendorsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -53,7 +56,7 @@ import { RolePermissionsModule } from './role-permissions/role-permissions.modul
     { provide: APP_FILTER, useClass: CatchEverythingFilter },
     { provide: APP_INTERCEPTOR, useClass: FormatResponseInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
-    // {provide: APP_GUARD, useClass: Access}
+    { provide: APP_GUARD, useClass: AccessControlGuard },
   ],
 })
 export class AppModule {}

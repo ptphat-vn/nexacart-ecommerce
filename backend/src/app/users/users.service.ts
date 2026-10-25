@@ -8,6 +8,7 @@ import { PaginationUtilService } from '../../common/utils/pagination-util/pagina
 import { QueryUtilService } from '../../common/utils/query-util/query-util.service';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import {
+  ExportUsersDto,
   GetUsersPaginationDto,
   IsExistPermissionKeyDto,
 } from './dto/get-user.dto';
@@ -15,15 +16,21 @@ import { isEmpty } from 'es-toolkit/compat';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { Actions } from '../../common/guards/access-control/access-control.const';
-import { UpdateUserDto } from './dto/updateUser.dto';
+import { ImportUsersDto, UpdateUserDto } from './dto/updateUser.dto';
+import { ExcelUtilService } from '../../common/utils/excel-util/excel-util.service';
+import {
+  GetOptionsParams,
+  Options,
+} from '../../common/query/options.interface';
 
 @Injectable() //khi khai báo thằng này thì sẽ tự động khởi tạo DI
-export class UsersService extends PrismaBaseService<'user'> {
+export class UsersService extends PrismaBaseService<'user'> implements Options {
   private userEntityName = User.name;
   private excelSheets = {
     [this.userEntityName]: this.userEntityName,
   };
   constructor(
+    private excelUtilService: ExcelUtilService,
     public prismaService: PrismaService,
     private paginationUtilService: PaginationUtilService,
     private queryUtilService: QueryUtilService,
@@ -108,56 +115,56 @@ export class UsersService extends PrismaBaseService<'user'> {
     return data;
   }
 
-  // async getOptions(params: GetOptionsParams) {
-  //   const { limit, select, ...search } = params;
-  //   const fieldsSelect =
-  //     this.queryUtilService.convertFieldsSelectOption<User>(select);
-  //   const searchQuery = this.queryUtilService.buildSearchQuery<User>({
-  //     search,
-  //   });
-  //   const data = await this.extended.findMany({
-  //     select: fieldsSelect,
-  //     take: limit,
-  //     where: searchQuery,
-  //   });
-  //   return data;
-  // }
+  async getOptions(params: GetOptionsParams) {
+    const { limit, select, ...search } = params;
+    const fieldsSelect =
+      this.queryUtilService.convertFieldsSelectOption<User>(select);
+    const searchQuery = this.queryUtilService.buildSearchQuery<User>({
+      search,
+    });
+    const data = await this.extended.findMany({
+      select: fieldsSelect,
+      take: limit,
+      where: searchQuery,
+    });
+    return data;
+  }
 
-  // async exportUsers({ ids, select }: ExportUsersDto) {
-  //   const where: Record<string, any> = {};
-  //   if (ids) {
-  //     where.id = { in: ids };
-  //   }
-  //   const fieldsSelect =
-  //     this.queryUtilService.convertFieldsSelectOption<User>(select);
-  //   const users = await this.extended.export({
-  //     select: fieldsSelect,
-  //     where,
-  //   });
+  async exportUsers({ ids, select }: ExportUsersDto) {
+    const where: Record<string, any> = {};
+    if (ids) {
+      where.id = { in: ids };
+    }
+    const fieldsSelect =
+      this.queryUtilService.convertFieldsSelectOption<User>(select);
+    const users = await this.extended.export({
+      select: fieldsSelect,
+      where,
+    });
 
-  //   const data = this.excelUtilService.generateExcel({
-  //     worksheets: [
-  //       {
-  //         sheetName: this.excelSheets[this.userEntityName],
-  //         data: users,
-  //       },
-  //     ],
-  //   });
+    const data = this.excelUtilService.generateExcel({
+      worksheets: [
+        {
+          sheetName: this.excelSheets[this.userEntityName],
+          data: users,
+        },
+      ],
+    });
 
-  //   return data;
-  // }
+    return data;
+  }
 
-  // async importUsers({ file, user }: ImportUsersDto) {
-  //   const userSheetName = this.excelSheets[this.userEntityName];
-  //   const dataCreated = await this.excelUtilService.read(file);
-  //   const data = await this.extended.createMany({
-  //     data: dataCreated[userSheetName].map((item) => ({
-  //       ...item,
-  //       user,
-  //     })),
-  //   });
-  //   return data;
-  // }
+  async importUsers({ file, user }: ImportUsersDto) {
+    const userSheetName = this.excelSheets[this.userEntityName];
+    const dataCreated = await this.excelUtilService.read(file);
+    const data = await this.extended.createMany({
+      data: dataCreated[userSheetName].map((item) => ({
+        ...item,
+        user,
+      })),
+    });
+    return data;
+  }
   async isSupperAdmin(userID: User['id']) {
     const data = await this.extended.findFirst({
       where: {

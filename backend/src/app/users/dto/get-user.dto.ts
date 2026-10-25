@@ -2,7 +2,7 @@ import { ExportExcelDto } from '../../../common/dto/param.dto';
 import { Pagination } from '../../../common/utils/pagination-util/interface/pagination-util.interface';
 import { User } from '../entities/user.entity';
 
-class ExportUserDto extends ExportExcelDto {}
+class ExportUsersDto extends ExportExcelDto {}
 
 class IsExistPermissionKeyDto {
   userID: User['id'];
@@ -10,4 +10,4 @@ class IsExistPermissionKeyDto {
 }
 
 class GetUsersPaginationDto extends Pagination {}
-export { ExportUserDto, IsExistPermissionKeyDto, GetUsersPaginationDto };
+export { ExportUsersDto, IsExistPermissionKeyDto, GetUsersPaginationDto };
